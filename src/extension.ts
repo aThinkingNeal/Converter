@@ -5,6 +5,7 @@ import { exec } from 'child_process';
 
 
 // this function converts the currently opened protobuf file to a swagger 2.0 specification
+// @TODO, currently this function is not working, the package protoc-gen-swagger has problems
 export function convertProtobufToSwagger() {
 	const editor = vscode.window.activeTextEditor;
 
@@ -15,7 +16,7 @@ export function convertProtobufToSwagger() {
 	  }
 
 	const filePath = editor.document.uri.fsPath;
-	const folderPath = vscode.workspace.getWorkspaceFolder(editor.document.uri);
+	const folderPath = vscode.workspace.getWorkspaceFolder(editor.document.uri)?.uri.fsPath;
 
   
 	const protoFile = editor.document.fileName;
@@ -31,10 +32,52 @@ export function convertProtobufToSwagger() {
 	//   vscode.window.showErrorMessage('The Protocol Buffers compiler (protoc) is not installed on your system.');
 	//   return;
 	// }
+
+	let pluginCommand: String = "--plugin=protoc-gen-ts=/opt/homebrew/bin/protoc-gen-ts";
+
+	const command = `protoc ${pluginCommand} --proto_path=${folderPath} --swagger_out=json:${swaggerFile} ${filePath}`;
   
-	const command = `protoc --swagger_out=json:${swaggerFile} ${filePath}`;
+	exec(command, (error, stdout, stderr) => {
+	  if (error) {
+		vscode.window.showErrorMessage(`Error: ${error.message}`);
+		return;
+	  }
+	  if (stderr) {
+		vscode.window.showErrorMessage(`Error: ${stderr}`);
+		return;
+	  }
+	  vscode.window.showInformationMessage(`Swagger 2.0 specification generated at ${swaggerFile}`);
+	});
+  }
+
+
+
+// currently this is a placeholder function to convert a json file to a OpenAPI format file
+export function convertJsonToSwagger() {
+	const editor = vscode.window.activeTextEditor;
+
+
+	if (!editor) {
+		vscode.window.showErrorMessage('No active editor found.');
+		return;
+	  }
+
+	const filePath = editor.document.uri.fsPath;
+	const folderPath = vscode.workspace.getWorkspaceFolder(editor.document.uri)?.uri.fsPath;
+
   
-	exec(command, { env: {PATH: `${folderPath}`} }, (error, stdout, stderr) => {
+	const protoFile = editor.document.fileName;
+	if (!protoFile.endsWith('.proto')) {
+	  vscode.window.showErrorMessage('The active editor is not a Protobuf file.');
+	  return;
+	}
+  
+	const swaggerFile = `${protoFile}.json`;
+  
+
+	const command = `mock-to-openapi --proto_path=${folderPath} --swagger_out=json:${swaggerFile} ${filePath}`;
+  
+	exec(command, (error, stdout, stderr) => {
 	  if (error) {
 		vscode.window.showErrorMessage(`Error: ${error.message}`);
 		return;
@@ -69,7 +112,11 @@ export function activate(context: vscode.ExtensionContext) {
 		convertProtobufToSwagger();
 	});
 
-	context.subscriptions.push(disposable0, disposable1);
+	let disposable2 = vscode.commands.registerCommand('converter.convertJsonToSwagger', () => {
+		convertProtobufToSwagger();
+	});
+
+	context.subscriptions.push(disposable0, disposable1, disposable2);
 
 }
 

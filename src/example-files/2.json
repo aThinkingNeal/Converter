@@ -1,0 +1,24 @@
+{
+  "startId": 7000,
+  "desc": "proto协议配置:id默认遵守从startId开始，上行消息Id = 下行消息Id + 1, 必要上行消息",
+  "protos": [
+    {
+      "desc": "上行消息",
+      "service": "messaging_service",
+      "url": "/messagingServiceApi/sendNotificationMessage",
+      "class_name": "SendNotificationMessageRequest",
+      "client_package": "MessagingServiceApi",
+      "server_package": "com.pserver.proto.archat",
+      "id": 7000
+    },
+    {
+      "desc": "下行消息",
+      "service": "messaging_service",
+      "url": "/messagingServiceApi/sendNotificationMessage",
+      "class_name": "SendNotificationMessageResponse",
+      "client_package": "MessagingServiceApi",
+      "server_package": "com.pserver.proto.archat",
+      "id": 7001
+    }
+  ]
+}

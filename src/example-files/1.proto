@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.pserver.proto.archat";
+option java_outer_classname = "MessagingServiceProto";
+
+// Unity/C# 命名空间
+option csharp_namespace = "MessagingServiceApi";
+
+// Typescript
+option ts_namespace = "MessagingServiceApi";
+
+package MessagingServiceProto;
+
+enum NotificationMessageDesc {
+  NOTIFICATION_UNSPECIFIED = 0;
+  NOTIFICATION_ADMIN_MOVE_TO_K_SERVER = 1;
+  NOTIFICATION_ADMIN_MOVE_TO_NORMAL_SERVER = 2;
+  NOTIFICATION_ADMIN_MOVE_TO_BANNED = 3;
+  NOTIFICATION_USER_INVITE_TO_ROOM = 4;
+  NOTIFICATION_USER_FOLLOW_YOU = 5;
+  NOTIFICATION_USER_UNFOLLOW_YOU = 6;
+}
+
+// @url="/messagingServiceApi/sendNotificationMessage"
+// @request
+// @id=7000
+message SendNotificationMessageRequest {
+  string to_user_id = 1;
+  NotificationMessageDesc message_desc = 2;
+  string message_data = 3;
+  int32 msg_life_time = 4;
+}
+
+message SendNotificationMessageResponse {
+  bool is_successful = 1;
+}
