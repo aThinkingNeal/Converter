@@ -1,71 +1,67 @@
-# converter README
+# Converter
+A VScode extension
 
-This is the README for your extension "converter". After writing up a brief description, we recommend including the following sections.
+## How to use
 
-## Features
+* Open this project in VSCode
+* Make sure you have set up the VSCode extension testing environment by following https://code.visualstudio.com/api/get-started/your-first-extension
+* or you could just run `npm install -g yo generator-code`
+* Click Run -- Start Debugging, a new VScode testing window will be opened
+* Use Cmd + Shift + P (MacOS) to open the command line in VScode
+* Type "Hello World" to test the extension is working, you should see a notification window on the right left corner
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## 摸爬滚打的心路历程
 
-For example if there is an image subfolder under your extension project workspace:
+* 目前没有找到比较成熟的直接转换 protobuf file/json file 成OpenAPI yaml file 的 package，Google 有一个官方支持的 Go 环境下的 converter -- gnostic https://github.com/google/gnostic, 但是目前该官方 package 中有已经 deprecated 的 dependencies，官方还没有更新，最近的相关 issue 是两星期前，没有被 resolve, 见：
+https://github.com/google/gnostic/issues/391
 
-\!\[feature X\]\(images/feature-x.png\)
+* 接下来实现该 project 有两种路径：
+   1. 在 gnostic 更新后，它能实现的功能是在protobuf和 json/yaml 之间实现互相转换，那么可以先将目前的 protobuf 文件转换成 json，然后和已有的 json 文件合并，再将合并后的 json 文件转换成 yaml in OpenAPI format
+   2. 自行实现转换的逻辑，这个需要看 gnostic 以及其他一些 package 的源码来进行研究，预计需要花较长的时间
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
-## Requirements
+## References
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## OpenAPI
+https://github.com/OAI/OpenAPI-Specification
 
-## Extension Settings
+[Home - OpenAPI Initiative](https://www.openapis.org/)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+[Getting Started | OpenAPI Documentation](https://learn.openapis.org/)
 
-For example:
+[OpenAPI Specification - Wikipedia](https://en.wikipedia.org/wiki/OpenAPI_Specification)
 
-This extension contributes the following settings:
+## TypeScript
+[Learn TypeScript | Codecademy](https://www.codecademy.com/learn/learn-typescript)
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+[Get started with TypeScript - Training | Microsoft Learn](https://learn.microsoft.com/en-us/training/modules/typescript-get-started/)
 
-## Known Issues
+## Vscode Extension
+[Your First Extension | Visual Studio Code Extension API](https://code.visualstudio.com/api/get-started/your-first-extension)
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Websocket
+[WebSocket - Wikipedia](https://en.wikipedia.org/wiki/WebSocket)
 
-## Release Notes
+[WebSocket - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)
 
-Users appreciate release notes as you update your extension.
+[Writing WebSocket client applications - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications)
 
-### 1.0.0
+## ProtoBuf
+[Overview | Protocol Buffers Documentation](https://protobuf.dev/overview/)
 
-Initial release of ...
+[Language Guide (proto 3) | Protocol Buffers Documentation](https://protobuf.dev/programming-guides/proto3/)
 
-### 1.0.1
+## Json to OpenAPI
+[GitHub - OzzyCzech/mock-to-openapi: Cli tool (and library) for converting JSON mock objects to OpenAPI schemas](https://github.com/OzzyCzech/mock-to-openapi)
 
-Fixed issue #.
+## Bugs
 
-### 1.1.0
+[protocol buffers - Unable to build protobuf to go endpoint - Stack Overflow](https://stackoverflow.com/questions/28099004/unable-to-build-protobuf-to-go-endpoint)
 
-Added features X, Y, and Z.
+[Request to remove reference to deprecated module ‘github.com/golang/protobuf’ · Issue #391 · google/gnostic · GitHub](https://github.com/google/gnostic/issues/391)
 
----
+## 心路历程
 
-## Following extension guidelines
+Protoc的command 在使用过程中遇到了各类不同的 bug，比如找不到对应的 option — ts_namespace, 需要根据 error message 一个个排查。不过找不到 ts_namespace此问题目前仍未解决，在装了对应的 plugin 后依然无法识别，TODO.
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
